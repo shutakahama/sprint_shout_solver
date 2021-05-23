@@ -1,0 +1,8 @@
+.idea/*
+*/.idea/*
+.next/*
+node_modules/*
+*.pickle
+.DS_Store
+*/__pycache__/*
+*/.gitignore~
