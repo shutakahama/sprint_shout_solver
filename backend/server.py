@@ -7,16 +7,16 @@ app = Flask(__name__)
 CORS(app)  # Cross Origin Resource Sharing
 
 
-Searcher = WordList()
+Solver = WordList()
 
 
 @app.route("/", methods=['GET'])
 def index():
-    return "welcome!"
+    return "welcome sprint shout solver!"
 
 
-@app.route("/listup", methods=['GET', 'POST'])
-def parse():
+@app.route("/word_list", methods=['GET', 'POST'])
+def word_list():
     data = request.get_json()
     length = int(data['length'])
     idx = int(data['idx'])
@@ -24,7 +24,7 @@ def parse():
     if moji == "":
         res = []
     else:
-        res = Searcher.listup_answers(length, idx, moji)
+        res = Solver.list_up_answers(length, idx, moji)
     
     response = {'result': res}
     if res:
@@ -34,4 +34,4 @@ def parse():
 
 if __name__ == "__main__":
     app.debug = True
-    app.run(host='127.0.0.1', port=5000)
+    app.run(host='0.0.0.0', port=8000)

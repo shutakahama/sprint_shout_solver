@@ -17,7 +17,7 @@ class WordList:
         with open(load_path, mode='rb') as f:
             self.word_dict = pickle.load(f)
 
-    def listup_answers(self, length, idx, moji):
+    def list_up_answers(self, length, idx, moji):
         ans_list = list(self.word_dict[length][idx][moji])
         random.shuffle(ans_list)
 
