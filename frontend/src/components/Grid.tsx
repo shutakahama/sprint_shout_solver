@@ -14,11 +14,17 @@ const Board: React.FC<BoardProps> = ({ squares, onClick}) => {
                         {[...Array(11)].map((_, j) => {
                             return (
                                 <button
-                                    className="square"
-                                    onClick={() => onClick(10-j, i)}
+                                    style={{
+                                        width: '30px',
+                                        height: '30px',
+                                        border: '1px solid #000',
+                                        borderRadius: '3px',
+                                        background: '#f2fcff'
+                                    }}
+                                    onClick={() => onClick(10 - j, i)}
                                     key={j}
                                 >
-                                    {squares[10-j][i]}
+                                    {squares[10 - j][i]}
                                 </button>
                             );
                         })}

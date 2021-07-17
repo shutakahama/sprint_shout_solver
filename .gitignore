@@ -3,6 +3,8 @@
 .next/*
 node_modules/*
 *.pickle
+*/.ipynb_checkpoints/*
+frontend/src/data/*
 .DS_Store
 */__pycache__/*
 */.gitignore~
