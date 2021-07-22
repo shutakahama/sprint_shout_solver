@@ -7,7 +7,7 @@ import random
 
 class WordList:
     def __init__(self):
-        load_path = "sprintshoutdict.json"
+        load_path = "sprint-shout-dict.json"
         with open(load_path, mode='rb') as f:
             self.word_dict = json.load(f)
 
@@ -15,7 +15,7 @@ class WordList:
         ans_list = list(self.word_dict[length][idx][moji])
         random.shuffle(ans_list)
 
-        return {i: ans_list[i] for i in range(min(len(ans_list), 10))}
+        return {i: list(ans_list[i]) for i in range(min(len(ans_list), 10))}
 
 
 app = Flask(__name__)

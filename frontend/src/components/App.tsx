@@ -9,13 +9,14 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import styled from 'styled-components';
 import Paper from "@material-ui/core/Paper";
+import {Button} from "@material-ui/core";
 // import data from '../data/sprintshoutdict.json';
 
 const InputForm: React.FC = () => {
   const [moji, setMoji] = useState<string>("あ");
   const [length, setLength] = useState<number>(7);
   const [index, setIndex] = useState<number>(0);
-  const [cand, setCand] = useState<string[]>([]);
+  const [cand, setCand] = useState<string[][]>([]);
 
   const handleLength = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLength(Number(e.target.value))
@@ -41,23 +42,40 @@ const InputForm: React.FC = () => {
     }
   }
 
+  const postData = () => {
+    Axios.post('http://localhost:8000/word_list', {
+      length: length,
+      idx: index,
+      moji: moji
+    }).then(res => {
+      let arr = [];
+      console.log(res)
+      for (let key in res.data.result) {
+        arr.push(res.data.result[key]);
+      }
+      setCand(arr)
+    }).catch(error => {
+      setCand([['存在しません', '存在しません']])
+    })
+  }
+
   useEffect(() => {
-    const postData = () => {
-      Axios.post('http://localhost:8000/word_list', {
-        length: length,
-        idx: index,
-        moji: moji
-      }).then(res => {
-        let arr = [];
-        console.log(res)
-        for (let key in res.data.result) {
-          arr.push(res.data.result[key]);
-        }
-        setCand(arr)
-      }).catch(error => {
-        setCand(['存在しません'])
-      })
-    }
+    // const postData = () => {
+    //   Axios.post('http://localhost:8000/word_list', {
+    //     length: length,
+    //     idx: index,
+    //     moji: moji
+    //   }).then(res => {
+    //     let arr = [];
+    //     console.log(res)
+    //     for (let key in res.data.result) {
+    //       arr.push(res.data.result[key]);
+    //     }
+    //     setCand(arr)
+    //   }).catch(error => {
+    //     setCand([['存在しません', '存在しません']])
+    //   })
+    // }
     postData();
   }, [length, index, moji]);
 
@@ -112,7 +130,7 @@ const InputForm: React.FC = () => {
                             value={item}
                             key={item}
                             control={<Radio />}
-                            label={item}
+                            label={item + 1}
                             checked={index === item}/>
                     );
                   })}
@@ -142,18 +160,21 @@ const InputForm: React.FC = () => {
               <div>長さ: {length}   位置: {index}   文字: {moji}</div>
             </Row>
             <Row>
+              <Button id="reload" variant="contained" color='primary' onClick={() => postData()}>再読み込み</Button>
+            </Row>
+            <Row>
                 {cand.map(item => {
                   return (
                       <Paper
                           style={{
                             textAlign: 'center',
-                            width: '20rem',
+                            width: '25rem',
                             margin: '0.5rem auto',
                             padding: 8,
                             background: 'whitesmoke'
                           }}
                       >
-                        {item}
+                        {item[0]}  （{item[1]}）
                       </Paper>
                       // <StyledPaper>{item}</StyledPaper>
                   )
